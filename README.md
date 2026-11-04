@@ -1,5 +1,7 @@
 # plus-mail
 
+**English** · [Русский](README.ru.md)
+
 Give every visitor their own email address, without changing your inbox.
 
 **979 bytes min+gzip** (1,597 bytes minified ESM). Zero runtime dependencies. ESM, CommonJS and TypeScript declarations.
