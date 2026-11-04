@@ -1,0 +1,48 @@
+{
+  "name": "plus-mail",
+  "version": "0.1.0",
+  "description": "Give each browser a persistent plus-address in page text and mailto links.",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "author": "Daniel Raskopin",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-frank/plus-mail.git"
+  },
+  "keywords": [
+    "email",
+    "plus-addressing",
+    "browser",
+    "marketing"
+  ],
+  "scripts": {
+    "test": "vitest run",
+    "build": "node scripts/build.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8",
+    "jsdom": "^24.1.3"
+  }
+}

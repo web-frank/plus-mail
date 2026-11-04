@@ -1,0 +1,69 @@
+<!doctype html>
+<!--
+MIT License
+
+Copyright (c) 2026 Daniel Raskopin
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>plus-mail — live demo</title><style>
+:root{font:16px/1.55 system-ui,sans-serif;color:#18312e;background:#f3f5ee;color-scheme:light}*{box-sizing:border-box}body{margin:0}main{max-width:850px;margin:60px auto;padding:0 24px}header{margin-bottom:30px}.eyebrow{text-transform:uppercase;letter-spacing:.15em;font-size:12px;color:#48665d}h1{font-size:clamp(36px,7vw,60px);line-height:1.1;letter-spacing:-.045em;margin:12px 0}h2{font-size:19px}p{max-width:70ch}.muted{color:#506860}.card{background:white;border:1px solid #d8e1d5;border-radius:18px;padding:24px;margin:20px 0;box-shadow:0 8px 28px #16332d08}.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}button,.button{font:inherit;cursor:pointer;background:#165d49;color:white;border:0;padding:10px 17px;border-radius:8px;text-decoration:none;display:inline-block}button.secondary{background:#e6eee5;color:#18312e}button:hover,.button:hover{filter:brightness(.94)}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #d88326;outline-offset:3px}input,select{font:inherit;border:1px solid #b3c5b8;border-radius:6px;padding:8px;max-width:100%;background:white;color:inherit}label{display:block}pre,code{font-family:ui-monospace,monospace}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f1f5ef;padding:16px;border-radius:8px}a{color:#165d49}footer{font-size:13px;color:#506860;margin:32px 0}.status{font-size:28px;font-weight:650;margin:10px 0}.success{color:#176140}.error{color:#9c3527}table{border-collapse:collapse;width:100%}td,th{text-align:left;padding:10px 6px;border-bottom:1px solid #e0e7dc}td input:not([type=checkbox]){width:100%}.scroll{overflow-x:auto}progress{width:100%;accent-color:#165d49}output{display:block}.badge{background:#e9f0e4;padding:3px 9px;border-radius:20px;font-size:13px}noscript{display:block;color:#9c3527}
+</style></head>
+<body><main><header><span class="eyebrow">roitrail / standalone libraries</span><h1>plus-mail</h1><p class="muted">Give every visitor their own email address, without changing your inbox.</p><span class="badge">Offline demo · No dependencies</span></header>
+<noscript>Enable JavaScript to run this demo.</noscript>
+
+<section class="card"><h2>Watch the addresses change</h2><p>These fictional addresses will be personalized after a short pause. The same browser keeps its ID across page loads when localStorage is available.</p>
+<div id="addresses"><ul><li><a href="mailto:sales@example.com?subject=Demo">sales@example.com</a></li><li><a href="mailto:sales@example.org">sales@example.org</a></li><li>Write to support@example.com for help.</li></ul></div>
+<p id="status" role="status" aria-live="polite">Base addresses — personalizing shortly…</p>
+<div class="row"><button id="personalize" type="button">Personalize now</button><button id="replay" class="secondary" type="button">Replay transformation</button></div></section>
+<section class="card"><h2>One browser, one ID</h2><pre id="identity">Waiting…</pre><p class="muted">Text and mailto recipients change together. Your email provider must support plus addressing. This demo generates no email and makes no network requests.</p></section>
+
+<footer>MIT © 2026 Daniel Raskopin · Part of <a href="https://github.com/web-frank/roitrail">roitrail</a>.<br>This file includes the library; no install, server or build is needed.</footer>
+</main><script>
+/*! MIT © 2026 Daniel Raskopin. Embedded library generated from src/index.ts. */
+/* BEGIN EMBEDDED LIBRARY */
+"use strict";var Library=(()=>{var u=Object.defineProperty;var x=Object.getOwnPropertyDescriptor;var E=Object.getOwnPropertyNames;var S=Object.prototype.hasOwnProperty;var M=(i,t)=>{for(var n in t)u(i,n,{get:t[n],enumerable:!0})},A=(i,t,n,a)=>{if(t&&typeof t=="object"||typeof t=="function")for(let e of E(t))!S.call(i,e)&&e!==n&&u(i,e,{get:()=>t[e],enumerable:!(a=x(t,e))||a.enumerable});return i};var T=i=>A(u({},"__esModule",{value:!0}),i);var O={};M(O,{plusMail:()=>L});var w=new Map;function L(i,{storageKey:t="plus-mail",root:n}={}){if(typeof document>"u")return{id:null,stop(){}};if(n??(n=document.body),!n)throw new Error("Call plusMail after the DOM is available");let a=[...new Set(i.map(r=>r.trim().toLowerCase()))];if(a.some(r=>!/^[^\s+@]+@[^\s@]+\.[^\s@]+$/.test(r)))throw new TypeError("Expected base email addresses without plus tags");let e=w.get(t)||"";try{e=localStorage.getItem(t)||e}catch{}/^[a-f0-9]{16}$/.test(e)||(e=Array.from(crypto.getRandomValues(new Uint8Array(8)),r=>r.toString(16).padStart(2,"0")).join("")),w.set(t,e);try{localStorage.setItem(t,e)}catch{}if(!a.length)return{id:e,stop(){}};let b=a.map(r=>r.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")),y=new RegExp("(^|[^+\\w.-])("+b.join("|")+")(?![\\w-]|\\.\\w)","gi"),p=r=>r.replace(y,(l,o,s)=>o+s.toLowerCase().replace("@","+"+e+"@")),d=()=>{let r=document.createTreeWalker(n,NodeFilter.SHOW_TEXT);for(;r.nextNode();){let o=r.currentNode;if(o.parentElement?.closest("script,style,textarea,input,select,noscript,[contenteditable]"))continue;let s=p(o.nodeValue||"");s!==o.nodeValue&&(o.nodeValue=s)}let l=[...n.querySelectorAll("a[href]")];n.matches("a[href]")&&l.push(n);for(let o of l){let s=o.getAttribute("href");if(!/^mailto:/i.test(s))continue;let m=s.indexOf("?"),h=m<0?s.length:m,c=s.slice(7,h);try{c=decodeURIComponent(c)}catch{}let g=p(c);g!==c&&o.setAttribute("href","mailto:"+g+s.slice(h))}};d();let f=new MutationObserver(d);return f.observe(n,{childList:!0,subtree:!0,characterData:!0,attributes:!0,attributeFilter:["href"]}),{id:e,stop:()=>f.disconnect()}}return T(O);})();
+/* END EMBEDDED LIBRARY */
+</script><script>
+
+const root = document.getElementById('addresses');
+const original = root.innerHTML;
+let subscription;
+let timer;
+function personalize() {
+  clearTimeout(timer);
+  subscription?.stop();
+  subscription = Library.plusMail(['sales@example.com', 'sales@example.org', 'support@example.com'], { root, storageKey: 'plus-mail-demo' });
+  document.getElementById('status').textContent = 'Personalized. Text and mailto links now include your ID.';
+  document.getElementById('status').className = 'success';
+  document.getElementById('identity').textContent = 'Browser ID: ' + subscription.id;
+}
+function replay() {
+  clearTimeout(timer); subscription?.stop(); root.innerHTML = original;
+  document.getElementById('status').textContent = 'Base addresses — personalizing shortly…';
+  document.getElementById('status').className = '';
+  timer = setTimeout(personalize, 1100);
+}
+document.getElementById('personalize').addEventListener('click', personalize);
+document.getElementById('replay').addEventListener('click', replay);
+replay();
+
+</script></body></html>
